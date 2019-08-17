@@ -187,7 +187,7 @@ int main(int argc, char *argv[])
 		blink(green);
 		//sign += run_sign_test();
 		blink(red);
-		gg18_client_keygen += run_start_gg18_client_keygen();
+		gg18_client_keygen += run_gg18_keygen();
 		blink(green);
 	}
 	
