@@ -47,9 +47,11 @@
   <ItemGroup>
     <ClCompile Include="epoll_timerfd_utilities.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="storage.c" />
     <ClInclude Include="epoll_timerfd_utilities.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="rust_hello.h" />
+    <ClInclude Include="storage.h" />
     <UpToDateCheckInput Include="app_manifest.json" />
     <ClInclude Include="applibs_versions.h" />
   </ItemGroup>
