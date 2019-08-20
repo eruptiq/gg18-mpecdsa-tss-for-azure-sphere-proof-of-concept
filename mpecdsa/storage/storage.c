@@ -1,4 +1,4 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved.
+﻿/* Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License. */
 
    // This sample C application for Azure Sphere illustrates how to use mutable storage.
@@ -17,17 +17,19 @@
 #include <stdio.h>
 
 // applibs_versions.h defines the API struct versions to use for applibs APIs.
-#include "applibs_versions.h"
+#include "../applibs_versions.h"
 #include <applibs/log.h>
 #include <applibs/storage.h>
 #include <applibs/gpio.h>
 
-#include "epoll_timerfd_utilities.h"
+#include "../epoll_timerfd_utilities.h"
 
 // By default, this sample is targeted at the MT3620 Reference Development Board (RDB).
 // This can be changed using the project property "Target Hardware Definition Directory".
 // This #include imports the sample_hardware abstraction from that hardware definition.
 #include <hw/sample_hardware.h>
+
+#include <storage.h>
 
 // File descriptors - initialized to invalid value
 // Buttons
@@ -48,7 +50,7 @@ static GPIO_Value_Type triggerDeleteButtonState = GPIO_Value_High;
 
 static int fileDescriptor = 0;
 
-const size_t FULL_SIZE = 8 * 1024 - 1;
+const size_t FULL_SIZE = 16 * 1024 - 1;
 const size_t FULL_STORAGE_SIZE = FULL_SIZE * sizeof(char);
 
 /// <summary>
@@ -78,7 +80,7 @@ static char* ReadStringFromMutableFile(int fd, size_t size)
 	return val;
 }
 
-static int OpenMutableStorage() {
+static int OpenMutableStorage(void) {
 	int fd = Storage_OpenMutableFile();
 	if (fd < 0) {
 		Log_Debug("ERROR: Could not open mutable file:  %s (%d).\n", strerror(errno), errno);
@@ -86,7 +88,7 @@ static int OpenMutableStorage() {
 	return fd;
 }
 
-void DeleteMutableStorage() {
+void DeleteMutableStorage(void) {
 	int ret = Storage_DeleteMutableFile();
 	if (ret < 0) {
 		Log_Debug("An error occurred while deleting the mutable file: %s (%d).\n",
@@ -118,7 +120,10 @@ static void WriteToMutableFile(int fd, char* val)
 	}
 }
 
-static void SaveToStorage(char* val)
+/// <summary>
+/// Write a string to this application's persistent data file
+/// </summary>
+void SaveToStorage(char* val)
 {
 	if (fileDescriptor != 0) {
 		DeleteMutableStorage();
@@ -128,10 +133,14 @@ static void SaveToStorage(char* val)
 	close(fd);
 }
 
-static char* ReadFromStorage() {
+/// <summary>
+/// Read a string from this application's persistent data file
+/// </summary>
+char* ReadFromStorage() {
 	int fd = OpenMutableStorage();
-	ReadStringFromMutableFile(fd, FULL_SIZE);
+	char* result = ReadStringFromMutableFile(fd, FULL_SIZE);
 	close(fd);
+	return result;
 }
 
 static volatile sig_atomic_t terminationRequired = false;

@@ -47,13 +47,16 @@
   <ItemGroup>
     <ClCompile Include="epoll_timerfd_utilities.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="storage.c" />
     <ClInclude Include="epoll_timerfd_utilities.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="rust_hello.h" />
-    <ClInclude Include="storage.h" />
     <UpToDateCheckInput Include="app_manifest.json" />
     <ClInclude Include="applibs_versions.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="storage\storage.vcxproj">
+      <Project>{df52c2fc-3a3e-47e3-a192-12cc17932435}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
