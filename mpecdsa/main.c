@@ -46,99 +46,6 @@ static void TerminationHandler(int signalNumber)
 	terminationRequired = true;
 }
 
-/* Memory allocation and other helper functions. */
-static void
-gmp_die(const char *msg)
-{
-	fprintf(stderr, "%s\n", msg);
-	abort();
-}
-
-static void *
-gmp_default_alloc(size_t size)
-{
-	void *p;
-
-	assert(size > 0);
-
-	p = malloc(size);
-	if (!p)
-		gmp_die("gmp_default_alloc: Virtual memory exhausted.");
-
-	return p;
-}
-
-static void *
-gmp_default_realloc(void *old, size_t old_size, size_t new_size)
-{
-	void * p;
-
-	p = realloc(old, new_size);
-
-	if (!p)
-		gmp_die("gmp_default_realloc: Virtual memory exhausted.");
-
-	return p;
-}
-
-static void
-gmp_default_free(void *p, size_t size)
-{
-	free(p);
-}
-
-static void * (*gmp_allocate_func) (size_t) = gmp_default_alloc;
-static void * (*gmp_reallocate_func) (void *, size_t, size_t) = gmp_default_realloc;
-static void(*gmp_free_func) (void *, size_t) = gmp_default_free;
-
-void
-mp_get_memory_functions(void *(**alloc_func) (size_t),
-	void *(**realloc_func) (void *, size_t, size_t),
-	void(**free_func) (void *, size_t))
-{
-	if (alloc_func)
-		*alloc_func = gmp_allocate_func;
-
-	if (realloc_func)
-		*realloc_func = gmp_reallocate_func;
-
-	if (free_func)
-		*free_func = gmp_free_func;
-}
-
-void
-mp_set_memory_functions(void *(*alloc_func) (size_t),
-	void *(*realloc_func) (void *, size_t, size_t),
-	void(*free_func) (void *, size_t))
-{
-	if (!alloc_func)
-		alloc_func = gmp_default_alloc;
-	if (!realloc_func)
-		realloc_func = gmp_default_realloc;
-	if (!free_func)
-		free_func = gmp_default_free;
-
-	gmp_allocate_func = alloc_func;
-	gmp_reallocate_func = realloc_func;
-	gmp_free_func = free_func;
-}
-
-#define gmp_xalloc(size) ((*gmp_allocate_func)((size)))
-#define gmp_free(p) ((*gmp_free_func) ((p), 0))
-
-static mp_ptr
-gmp_xalloc_limbs(mp_size_t size)
-{
-	return (mp_ptr)gmp_xalloc(size * sizeof(mp_limb_t));
-}
-
-static mp_ptr
-gmp_xrealloc_limbs(mp_ptr old, mp_size_t size)
-{
-	assert(size > 0);
-	return (mp_ptr)(*gmp_reallocate_func) (old, 0, size * sizeof(mp_limb_t));
-}
-
 /// <summary>
 ///     Main entry point for this sample.
 /// </summary>
@@ -169,7 +76,7 @@ int main(int argc, char *argv[])
 
 	blink(green);
 	blink(red);
-	mp_set_memory_functions(gmp_default_alloc, gmp_default_realloc, gmp_default_free);
+
 	blink(green);
 	Log_Debug("Multi party ECDSA embedded proof of concept.\n");
 	Log_Debug("App runs keygen and signing tests to bench RAM consumption and performance.\n");
