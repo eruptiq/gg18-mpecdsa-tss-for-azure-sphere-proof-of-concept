@@ -45,9 +45,7 @@
     <LibraryPath>$(ProjectDir)\..\microgmp\bin\ARM\$(ConfiguratioName);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="epoll_timerfd_utilities.c" />
     <ClCompile Include="main.c" />
-    <ClInclude Include="epoll_timerfd_utilities.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="rust_hello.h" />
     <UpToDateCheckInput Include="app_manifest.json" />
@@ -58,24 +56,31 @@
       <Project>{df52c2fc-3a3e-47e3-a192-12cc17932435}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="certs\infura_full.pem">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>-Werror=implicit-function-declaration %(AdditionalOptions)</AdditionalOptions>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Full</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">MinSize</Optimization>
       <LinkTimeOptimization Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</LinkTimeOptimization>
-      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">None</DebugInformationFormat>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Disabled</Optimization>
-      <UnrollLoops Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</UnrollLoops>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Minimal</DebugInformationFormat>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">MinSize</Optimization>
+      <UnrollLoops Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</UnrollLoops>
       <RelaxIEEE Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</RelaxIEEE>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">None</DebugInformationFormat>
+      <LinkTimeOptimization Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</LinkTimeOptimization>
     </ClCompile>
     <Link>
-      <LibraryDependencies>applibs;pthread;gcc_s;c;curl;rust_hello;gmp;</LibraryDependencies>
+      <LibraryDependencies>applibs;pthread;gcc_s;curl;c;utils;rust_hello;gmp;</LibraryDependencies>
       <AdditionalOptions>-Wl,--no-undefined -nodefaultlibs %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">../rust/target/out/$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">../rust/target/out/release;utils/bin/out/$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <VerboseOutput Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</VerboseOutput>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">../rust/target/out/$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">../rust/target/out/$(ConfigurationName);utils/bin/out/$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OptimizeforMemory Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</OptimizeforMemory>
       <DebuggerSymbolInformation Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</DebuggerSymbolInformation>
       <VerboseOutput Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</VerboseOutput>

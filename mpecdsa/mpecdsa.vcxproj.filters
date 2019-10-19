@@ -37,4 +37,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="certs\infura_full.pem" />
+  </ItemGroup>
 </Project>

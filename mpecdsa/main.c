@@ -49,7 +49,7 @@ static void TerminationHandler(int signalNumber)
 /// <summary>
 ///     Main entry point for this sample.
 /// </summary>
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	int green = GPIO_OpenAsOutput(MT3620_RDB_LED1_GREEN, GPIO_OutputMode_PushPull, GPIO_Value_High);
 	if (green < 0) {
@@ -86,6 +86,9 @@ int main(int argc, char *argv[])
 	float keygen = 0;
 	float sign = 0;
 	float gg18_client_keygen = 0;
+	float gg18_client_sign = 0;
+	float gg18_test_pkh = 0;
+
 	int iters = 1;
 	for (size_t i = 0; i < iters; i++)
 	{
@@ -95,14 +98,28 @@ int main(int argc, char *argv[])
 		blink(green);
 		//sign += run_sign_test();
 		blink(red);
+		turn_off_led(red);
 		gg18_client_keygen += run_gg18_keygen();
 		blink(green);
+		turn_off_led(green);
+
+		//18_client_sign += run_gg18_sign();
+
+		blink(red);
+		turn_off_led(red);
+		blink(green);
+
+		gg18_test_pkh += test_pkh();
+
+		turn_off_led(green);
+		blink(red);
+		turn_off_led(red);
 	}
 	
 	Log_Debug("Application exiting... keygen: %.4f | sign: %.4f | gg18: %.4f \n", 
 		keygen/iters, sign/iters, gg18_client_keygen/iters);
 	blink(green);
-	blink(green);
+	turn_off_led(green);
 	return 0;
 }
 
@@ -111,5 +128,10 @@ void blink(int fd)
 	const struct timespec sleepTime = { 0, 100 * 1000 * 1000 };
 	GPIO_SetValue(fd, GPIO_Value_High);
 	nanosleep(&sleepTime, NULL);
+	GPIO_SetValue(fd, GPIO_Value_Low);
+}
+
+void turn_off_led(int fd)
+{
 	GPIO_SetValue(fd, GPIO_Value_Low);
 }
