@@ -22,14 +22,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <UpToDateCheckInput Include="app_manifest.json" />
-    <ClCompile Include="epoll_timerfd_utilities.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="epoll_timerfd_utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rust_hello.h">
       <Filter>Header Files</Filter>
     </ClInclude>

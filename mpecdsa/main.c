@@ -27,7 +27,6 @@
 #include <applibs/networking.h>
 #include <applibs/storage.h>
 
-#include "epoll_timerfd_utilities.h"
 #include "utils/Inc/Public/storage.h"
 #include "rust_hello.h"
 #include "../microgmp/Inc/Public/gmp.h"
