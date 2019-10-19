@@ -23,6 +23,7 @@
     <PlatformToolset>GCC_AzureSphere_1_0</PlatformToolset>
     <ProjectPublicIncludePath>$(MSBuildProjectDirectory)\Inc\Public</ProjectPublicIncludePath>
     <PublicIncludePath>$(MSBuildProjectDirectory)\Inc\Public</PublicIncludePath>
+    <ProjectName>utils</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
@@ -43,10 +44,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <TargetHardwareDirectory>..\..\Hardware\mt3620_rdb</TargetHardwareDirectory>
     <TargetHardwareDefinition>sample_hardware.json</TargetHardwareDefinition>
+    <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <TargetHardwareDirectory>..\..\Hardware\mt3620_rdb</TargetHardwareDirectory>
     <TargetHardwareDefinition>sample_hardware.json</TargetHardwareDefinition>
+    <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -55,14 +58,18 @@
       <LinkTimeOptimization Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</LinkTimeOptimization>
     </ClCompile>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">C:\Windows\System32\xcopy /Y $(ProjectDir)bin\$(Platform)\$(Configuration)\*.* $(ProjectDir)..\..\rust\target\$(Configuration)\deps\</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">C:\Windows\System32\xcopy /Y $(ProjectDir)bin\$(Platform)\$(Configuration)\*.* $(ProjectDir)..\..\rust\target\$(Configuration)\deps\
+C:\Windows\System32\xcopy /Y $(ProjectDir)bin\$(Platform)\$(Configuration)\*.* $(ProjectDir)bin\out\$(Configuration)\</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">C:\Windows\System32\xcopy /Y $(ProjectDir)bin\$(Platform)\$(Configuration)\*.* $(ProjectDir)..\..\rust\target\$(Configuration)\deps\</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">C:\Windows\System32\xcopy /Y $(ProjectDir)bin\$(Platform)\$(Configuration)\*.* $(ProjectDir)..\..\rust\target\$(Configuration)\deps\
+C:\Windows\System32\xcopy /Y $(ProjectDir)bin\$(Platform)\$(Configuration)\*.* $(ProjectDir)bin\out\$(Configuration)\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="network.c" />
     <ClCompile Include="storage.c" />
+    <ClInclude Include="Inc\Public\network.h" />
     <ClInclude Include="Inc\Public\storage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

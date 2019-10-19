@@ -54,7 +54,7 @@
     <ClInclude Include="applibs_versions.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="storage\storage.vcxproj">
+    <ProjectReference Include="utils\utils.vcxproj">
       <Project>{df52c2fc-3a3e-47e3-a192-12cc17932435}</Project>
     </ProjectReference>
   </ItemGroup>

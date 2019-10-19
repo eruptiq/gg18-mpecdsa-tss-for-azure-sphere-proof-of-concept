@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpecdsa", "mpecdsa\mpecdsa.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rustlib", "rustlib", "{E989F2B6-6C17-429B-83B9-814BEA1B7884}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "storage", "mpecdsa\storage\storage.vcxproj", "{DF52C2FC-3A3E-47E3-A192-12CC17932435}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "utils", "mpecdsa\utils\utils.vcxproj", "{DF52C2FC-3A3E-47E3-A192-12CC17932435}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
